@@ -1,47 +1,61 @@
-script.js
-let totalLeads = localStorage.getItem("totalLeads") || 0;
-let leadsFechados = localStorage.getItem("leadsFechados") || 0;
+let leads = JSON.parse(localStorage.getItem("leads")) || [];
 
-function atualizarTela() {
-  totalLeads = Number(totalLeads);
-  leadsFechados = Number(leadsFechados);
-
-  const abertos = totalLeads - leadsFechados;
-  const conversao = totalLeads > 0 ? ((leadsFechados / totalLeads) * 100).toFixed(2) : 0;
-
-  document.getElementById("totalLeads").innerText = totalLeads;
-  document.getElementById("leadsFechados").innerText = leadsFechados;
-  document.getElementById("leadsAbertos").innerText = abertos;
-  document.getElementById("taxaConversao").innerText = conversao + "%";
-
-  desenharGrafico(leadsFechados, abertos);
+function salvar() {
+  localStorage.setItem("leads", JSON.stringify(leads));
 }
 
-function salvarDados() {
-  totalLeads = document.getElementById("totalLeadsInput").value;
-  leadsFechados = document.getElementById("leadsFechadosInput").value;
+function adicionarLead() {
+  const nome = document.getElementById("nomeLead").value;
+  const status = document.getElementById("statusLead").value;
 
-  localStorage.setItem("totalLeads", totalLeads);
-  localStorage.setItem("leadsFechados", leadsFechados);
+  if (!nome) return alert("Digite o nome do lead");
 
-  atualizarTela();
+  leads.push({ nome, status });
+  document.getElementById("nomeLead").value = "";
+
+  salvar();
+  renderizar();
 }
 
-let chart;
-function desenharGrafico(fechados, abertos) {
-  const ctx = document.getElementById("grafico");
+function mudarStatus(index, novoStatus) {
+  leads[index].status = novoStatus;
+  salvar();
+  renderizar();
+}
 
-  if (chart) chart.destroy();
+function renderizar() {
+  const listas = {
+    novo: document.getElementById("lista-novo"),
+    contato: document.getElementById("lista-contato"),
+    fechado: document.getElementById("lista-fechado")
+  };
 
-  chart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Fechados', 'Em Aberto'],
-      datasets: [{
-        data: [fechados, abertos]
-      }]
-    }
+  Object.values(listas).forEach(l => l.innerHTML = "");
+
+  let contagem = { novo: 0, contato: 0, fechado: 0 };
+
+  leads.forEach((lead, index) => {
+    contagem[lead.status]++;
+
+    const div = document.createElement("div");
+    div.className = "lead";
+    div.innerHTML = `
+      ${lead.nome}
+      <select onchange="mudarStatus(${index}, this.value)">
+        <option value="novo" ${lead.status=="novo"?"selected":""}>Novo</option>
+        <option value="contato" ${lead.status=="contato"?"selected":""}>Contato</option>
+        <option value="fechado" ${lead.status=="fechado"?"selected":""}>Fechado</option>
+      </select>
+    `;
+
+    listas[lead.status].appendChild(div);
   });
+
+  document.getElementById("total").innerText = leads.length;
+  document.getElementById("novos").innerText = contagem.novo;
+  document.getElementById("contato").innerText = contagem.contato;
+  document.getElementById("fechados").innerText = contagem.fechado;
 }
 
-atualizarTela();
+renderizar();
+;
