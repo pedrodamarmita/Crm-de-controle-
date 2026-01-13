@@ -5,13 +5,21 @@ function salvar() {
 }
 
 function adicionarLead() {
-  const nome = document.getElementById("nomeLead").value;
-  const status = document.getElementById("statusLead").value;
+  const nomeInput = document.getElementById("nomeLead");
+  const statusInput = document.getElementById("statusLead");
 
-  if (!nome) return alert("Digite o nome do lead");
+  if (!nomeInput || !statusInput) return;
 
-  leads.push({ nome, status });
-  document.getElementById("nomeLead").value = "";
+  const nome = nomeInput.value.trim();
+  const status = statusInput.value;
+
+  if (nome === "") {
+    alert("Digite o nome do lead");
+    return;
+  }
+
+  leads.push({ nome: nome, status: status });
+  nomeInput.value = "";
 
   salvar();
   renderizar();
@@ -24,13 +32,15 @@ function mudarStatus(index, novoStatus) {
 }
 
 function renderizar() {
-  const listas = {
-    novo: document.getElementById("lista-novo"),
-    contato: document.getElementById("lista-contato"),
-    fechado: document.getElementById("lista-fechado")
-  };
+  const listaNovo = document.getElementById("lista-novo");
+  const listaContato = document.getElementById("lista-contato");
+  const listaFechado = document.getElementById("lista-fechado");
 
-  Object.values(listas).forEach(l => l.innerHTML = "");
+  if (!listaNovo || !listaContato || !listaFechado) return;
+
+  listaNovo.innerHTML = "";
+  listaContato.innerHTML = "";
+  listaFechado.innerHTML = "";
 
   let contagem = { novo: 0, contato: 0, fechado: 0 };
 
@@ -39,16 +49,19 @@ function renderizar() {
 
     const div = document.createElement("div");
     div.className = "lead";
+
     div.innerHTML = `
-      ${lead.nome}
+      <span>${lead.nome}</span>
       <select onchange="mudarStatus(${index}, this.value)">
-        <option value="novo" ${lead.status=="novo"?"selected":""}>Novo</option>
-        <option value="contato" ${lead.status=="contato"?"selected":""}>Contato</option>
-        <option value="fechado" ${lead.status=="fechado"?"selected":""}>Fechado</option>
+        <option value="novo" ${lead.status === "novo" ? "selected" : ""}>Novo</option>
+        <option value="contato" ${lead.status === "contato" ? "selected" : ""}>Em Contato</option>
+        <option value="fechado" ${lead.status === "fechado" ? "selected" : ""}>Fechado</option>
       </select>
     `;
 
-    listas[lead.status].appendChild(div);
+    if (lead.status === "novo") listaNovo.appendChild(div);
+    if (lead.status === "contato") listaContato.appendChild(div);
+    if (lead.status === "fechado") listaFechado.appendChild(div);
   });
 
   document.getElementById("total").innerText = leads.length;
@@ -58,4 +71,4 @@ function renderizar() {
 }
 
 renderizar();
-;
+
