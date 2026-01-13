@@ -3,35 +3,31 @@ index.html
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Controle de Leads</title>
+  <title>Controle de Leads - Nível 2</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <h1>📊 Controle de Leads</h1>
+<div class="container">
+  <h1>📊 Controle de Leads</h1>
 
-    <div class="box">
-      <p>Total de Leads</p>
-      <span id="totalLeads"></span>
-    </div>
-
-    <div class="box">
-      <p>Leads Fechados</p>
-      <span id="leadsFechados"></span>
-    </div>
-
-    <div class="box">
-      <p>Leads em Aberto</p>
-      <span id="leadsAbertos"></span>
-    </div>
-
-    <div class="box destaque">
-      <p>Taxa de Conversão</p>
-      <span id="taxaConversao"></span>
-    </div>
+  <div class="inputs">
+    <input type="number" id="totalLeadsInput" placeholder="Total de Leads">
+    <input type="number" id="leadsFechadosInput" placeholder="Leads Fechados">
+    <button onclick="salvarDados()">Salvar</button>
   </div>
 
-  <script src="script.js"></script>
+  <div class="cards">
+    <div class="card">Total de Leads<br><span id="totalLeads">0</span></div>
+    <div class="card">Fechados<br><span id="leadsFechados">0</span></div>
+    <div class="card">Em Aberto<br><span id="leadsAbertos">0</span></div>
+    <div class="card destaque">Conversão<br><span id="taxaConversao">0%</span></div>
+  </div>
+
+  <canvas id="grafico"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
