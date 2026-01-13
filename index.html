@@ -1,33 +1,56 @@
-index.html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Controle de Leads - Nível 2</title>
+  <title>CRM Leads - Moderno</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-  <h1>📊 Controle de Leads</h1>
+<header>
+  <h1>🚀 CRM de Leads</h1>
+  <p>Controle moderno de leads e fechamentos</p>
+</header>
 
-  <div class="inputs">
-    <input type="number" id="totalLeadsInput" placeholder="Total de Leads">
-    <input type="number" id="leadsFechadosInput" placeholder="Leads Fechados">
-    <button onclick="salvarDados()">Salvar</button>
+<section class="container">
+
+  <div class="add-lead">
+    <input type="text" id="nomeLead" placeholder="Nome do Lead">
+    <select id="statusLead">
+      <option value="novo">Novo</option>
+      <option value="contato">Em Contato</option>
+      <option value="fechado">Fechado</option>
+    </select>
+    <button onclick="adicionarLead()">Adicionar</button>
   </div>
 
-  <div class="cards">
-    <div class="card">Total de Leads<br><span id="totalLeads">0</span></div>
-    <div class="card">Fechados<br><span id="leadsFechados">0</span></div>
-    <div class="card">Em Aberto<br><span id="leadsAbertos">0</span></div>
-    <div class="card destaque">Conversão<br><span id="taxaConversao">0%</span></div>
+  <div class="metricas">
+    <div class="card">Total<br><span id="total">0</span></div>
+    <div class="card">Novos<br><span id="novos">0</span></div>
+    <div class="card">Em Contato<br><span id="contato">0</span></div>
+    <div class="card destaque">Fechados<br><span id="fechados">0</span></div>
   </div>
 
-  <canvas id="grafico"></canvas>
-</div>
+  <div class="funil">
+    <div class="coluna">
+      <h3>Novo</h3>
+      <div id="lista-novo"></div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div class="coluna">
+      <h3>Em Contato</h3>
+      <div id="lista-contato"></div>
+    </div>
+
+    <div class="coluna">
+      <h3>Fechado</h3>
+      <div id="lista-fechado"></div>
+    </div>
+  </div>
+
+</section>
+
 <script src="script.js"></script>
 </body>
 </html>
+
