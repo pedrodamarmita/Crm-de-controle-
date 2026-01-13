@@ -1,1 +1,35 @@
 style.css
+body {
+  background: #0f172a;
+  font-family: Arial, sans-serif;
+  color: #fff;
+}
+
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 40px;
+}
+
+.box {
+  background: #1e293b;
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.box span {
+  display: block;
+  font-size: 32px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.destaque {
+  background: #16a34a;
+}
